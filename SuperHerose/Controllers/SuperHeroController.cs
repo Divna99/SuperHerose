@@ -18,11 +18,20 @@ namespace SuperHerose.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllHerose()
+        public async Task<IActionResult> GetAllHeroes()
         {
-            var herose = await _context.SuperHeroes.ToListAsync();
+            var heroes = await _context.SuperHeroes.ToListAsync();
 
-            return Ok(herose);
+            return Ok(heroes);
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetHero(int id)
+        {
+            var hero = await _context.SuperHeroes.FindAsync(id);
+            if (hero is null)
+                return NotFound("Hero not found");
+
+            return Ok(hero);
         }
     }
 }
