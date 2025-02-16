@@ -42,5 +42,24 @@ namespace SuperHerose.Controllers
 
             return Ok(await GetAllHeroes());
         }
+
+        [HttpPut]
+        public async Task<ActionResult<List<SuperHero>>> UpdateHero(SuperHero updatedHero)
+        {
+            var dbHero = await _context.SuperHeroes.FindAsync(updatedHero.Id);
+            if (dbHero is null)
+                return NotFound("Hero not found");
+
+            dbHero.Name = updatedHero.Name;
+            dbHero.FirstName = updatedHero.FirstName;
+            dbHero.LastName = updatedHero.LastName;
+            dbHero.Place = updatedHero.Place;
+
+            await _context.SaveChangesAsync();
+
+
+
+            return Ok(await GetAllHeroes());
+        }
     }
 }
